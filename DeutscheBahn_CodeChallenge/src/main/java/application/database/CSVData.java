@@ -16,33 +16,27 @@ import java.util.zip.DataFormatException;
 public class CSVData {
     private static CSVData instance = null;
     private static final String CSV_FILENAME = "DBNetz-Betriebsstellenverzeichnis-Stand2021-10.csv";
-    Map<String, Betriebsstelle> data = new HashMap<String, Betriebsstelle>();
-    Logger logger = Logger.getLogger(this.getClass().getName());
-
+    private Map<String, Betriebsstelle> data = new HashMap<String, Betriebsstelle>();
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Level LOGLEVEL = Level.WARNING;
 
     private CSVData() {
-        logger.setLevel(Level.WARNING);
+        logger.setLevel(LOGLEVEL);
         try {
             readData();
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
         }
     }
 
     public static CSVData getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new CSVData();
-        }
         return instance;
     }
 
     private void readData() throws FileNotFoundException {
-        Scanner sc = null;
-        InputStream file = this.getClass().getClassLoader().getResourceAsStream(CSV_FILENAME);
-        if (file == null) throw new FileNotFoundException(String.format("File %s not found!", CSV_FILENAME));
-
-        sc = new Scanner(file, StandardCharsets.UTF_8); // UTF-8 to account for special German characters
+        Scanner sc = new Scanner(getFile(), StandardCharsets.UTF_8); // UTF-8 to account for special German characters
         sc.nextLine(); // skip header line
 
         int counter = 1;
@@ -57,6 +51,12 @@ public class CSVData {
         }
         logger.log(Level.INFO, String.format("Added %d lines", counter));
         sc.close();
+    }
+
+    private InputStream getFile() throws FileNotFoundException {
+        InputStream file = this.getClass().getClassLoader().getResourceAsStream(CSV_FILENAME);
+        if (file == null) throw new FileNotFoundException(String.format("File %s not found!", CSV_FILENAME));
+        return file;
     }
 
     private void enterDataLine(String[] line) throws DataFormatException {

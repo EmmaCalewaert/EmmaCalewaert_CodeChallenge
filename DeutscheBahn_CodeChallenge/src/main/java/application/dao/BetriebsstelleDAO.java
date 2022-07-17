@@ -17,8 +17,13 @@ public class BetriebsstelleDAO implements IBetriebsstelleDAO {
     }
 
     @Override
-    public String getBetriebsstelleByAbbreviationAsJSON(String abbreviation) throws BetriebsstelleNotFoundException, JsonProcessingException {
+    public String getBetriebsstelleByAbbreviationAsJSON(String abbreviation) throws BetriebsstelleNotFoundException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(getBetriebsstelleByAbbreviation(abbreviation));
+        try {
+            return objectMapper.writeValueAsString(getBetriebsstelleByAbbreviation(abbreviation));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -24,8 +24,6 @@ public class BetriebsstelleController {
             return new ResponseEntity<String>(betriebsstelleDAO.getBetriebsstelleByAbbreviationAsJSON(abbreviation), HttpStatus.OK);
         } catch (BetriebsstelleNotFoundException e) {
             return new ResponseEntity<String>(String.format("No Betriebsstelle %s found", abbreviation), HttpStatus.NOT_FOUND);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 }

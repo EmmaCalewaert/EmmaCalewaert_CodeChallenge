@@ -7,6 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public interface IBetriebsstelleDAO {
     public Betriebsstelle getBetriebsstelleByAbbreviation (String abbreviation) throws BetriebsstelleNotFoundException;
 
-    public String getBetriebsstelleByAbbreviationAsJSON (String abbreviation) throws BetriebsstelleNotFoundException, JsonProcessingException;
+    public String getBetriebsstelleByAbbreviationAsJSON (String abbreviation) throws BetriebsstelleNotFoundException;
 
 }
