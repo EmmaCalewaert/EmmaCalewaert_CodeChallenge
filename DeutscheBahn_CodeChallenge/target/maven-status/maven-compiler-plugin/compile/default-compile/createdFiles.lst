@@ -1,0 +1,8 @@
+application/Application.class
+application/ApplicationConfiguration.class
+application/model/Betriebsstelle.class
+application/controllers/BetriebsstelleController.class
+application/dao/BetriebsstelleDAO.class
+application/dao/IBetriebsstelleDAO.class
+application/exception/BetriebsstelleNotFoundException.class
+application/database/CSVData.class
