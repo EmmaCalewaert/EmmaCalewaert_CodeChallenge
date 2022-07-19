@@ -1,4 +1,3 @@
 package application.exception;
 
-public class BetriebsstelleNotFoundException extends Exception {
-}
+public class BetriebsstelleNotFoundException extends Exception { }

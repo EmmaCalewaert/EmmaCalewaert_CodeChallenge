@@ -1,7 +1,9 @@
 package application.model;
 
-import java.util.zip.DataFormatException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.zip.DataFormatException;
 
 public final class Betriebsstelle {
     private String PLC;
@@ -23,19 +25,19 @@ public final class Betriebsstelle {
         this.RL100Code = RL100Code;
         this.RL100Langname = RL100Langname;
         this.RL100Kurzname = RL100Kurzname;
-        TypKurz = typKurz;
-        TypLang = typLang;
-        Betriebszustand = betriebszustand;
-        DatumAb = datumAb;
-        DatumBis = datumBis;
-        Niederlassung = niederlassung;
-        Regionalbereich = regionalbereich;
-        LetzteAenderung = letzteAenderung;
+        this.TypKurz = typKurz;
+        this.TypLang = typLang;
+        this.Betriebszustand = betriebszustand;
+        this.DatumAb = datumAb;
+        this.DatumBis = datumBis;
+        this.Niederlassung = niederlassung;
+        this.Regionalbereich = regionalbereich;
+        this.LetzteAenderung = letzteAenderung;
     }
 
     private final static int NUM_TO_PARSE = 12;
     public Betriebsstelle(String[] line) throws DataFormatException {
-        if(line.length != NUM_TO_PARSE) throw new DataFormatException(String.format("Data length incorrect! Should have %i strings to parse.", NUM_TO_PARSE));
+        if(line.length != NUM_TO_PARSE) throw new DataFormatException(String.format("Data length incorrect! Should have %d strings to parse.", NUM_TO_PARSE));
         this.PLC = line[0];
         this.RL100Code = line[1];
         this.RL100Langname = line[2];
@@ -99,20 +101,23 @@ public final class Betriebsstelle {
     }
 
     @Override
-    public String toString() {
-        return "Betriebsstelle{" +
-                "PLC='" + PLC + '\'' +
-                ", RL100Code='" + RL100Code + '\'' +
-                ", RL100Langname='" + RL100Langname + '\'' +
-                ", RL100Kurzname='" + RL100Kurzname + '\'' +
-                ", TypKurz='" + TypKurz + '\'' +
-                ", TypLang='" + TypLang + '\'' +
-                ", Betriebszustand='" + Betriebszustand + '\'' +
-                ", DatumAb='" + DatumAb + '\'' +
-                ", DatumBis='" + DatumBis + '\'' +
-                ", Niederlassung='" + Niederlassung + '\'' +
-                ", Regionalbereich='" + Regionalbereich + '\'' +
-                ", LetzteAenderung='" + LetzteAenderung + '\'' +
-                '}';
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        final Betriebsstelle other = (Betriebsstelle) obj;
+        return other.PLC.equals(this.PLC) && other.RL100Code.equals(RL100Code) && other.RL100Langname.equals(RL100Langname)
+                && other.RL100Kurzname.equals(RL100Kurzname) && other.TypKurz.equals(TypKurz) && other.TypLang.equals(TypLang)
+                && other.Betriebszustand.equals(Betriebszustand) && other.DatumAb.equals(DatumAb) && other.DatumBis.equals(DatumBis)
+                && other.Niederlassung.equals(Niederlassung) && other.Regionalbereich.equals(Regionalbereich)
+                && other.LetzteAenderung.equals(LetzteAenderung);
+    }
+
+    public String toJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

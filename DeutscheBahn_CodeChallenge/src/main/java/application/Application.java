@@ -7,8 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
-        CSVData.getInstance();
+        CSVData.getInstance(); // initialize the data before first request
         SpringApplication.run(Application.class, args);
     }
-
 }
